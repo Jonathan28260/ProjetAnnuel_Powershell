@@ -128,3 +128,8 @@ function statut
     "<td class=" +$ColorStatut +">" + $Statut +"</td>" | Out-File $HTMLSupervision -Append utf8 #J'ajoute la variable Statut au HTML avec la couleur qui va bien
 
 }
+
+
+
+
+#Nathan
