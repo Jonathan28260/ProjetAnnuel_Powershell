@@ -64,17 +64,17 @@ function CPUUsage
     $CPUUsage = (Get-WmiObject -ComputerName $Nom -Class win32_processor -ErrorAction Stop | Measure-Object -Property LoadPercentage -Average | Select-Object Average).Average #Commande pour avoir l'usage du CPU en pourcents
     if ($CPUUsage -le 70) # Si l'usage CPU est en dessous de 70%
     {
-        $ColorCPU = 'w3-green' #La variable ColorCPU prend la valeur vert
+        $script:ColorCPU = 'w3-green' #La variable ColorCPU prend la valeur vert
     }
 
     elseif(($CPUUsage -gt 70) -and ($CPUUsage -le 85)) #Sinon si l'usage CPU est entre  de 70% et 85%
     {
-        $ColorCPU = 'w3-yellow' #La variable ColorCPU prend la valeur jaune
+        $script:ColorCPU = 'w3-yellow' #La variable ColorCPU prend la valeur jaune
     }
 
     else #Sinon
     {
-        $ColorCPU = 'w3-red'#La variable ColorCPU prend la valeur rouge
+        $script:ColorCPU = 'w3-red'#La variable ColorCPU prend la valeur rouge
     }
 
     "<td class=" +$ColorCPU +">" + $CPUUsage + " %" +"</td>" | Out-File $HTMLSupervision -Append utf8 #J'ajoute la variable Usage CPU au HTML avec la couleur en fonction de l'usage CPU
@@ -88,17 +88,17 @@ function RAMUsage
     
     if ($RAMUsage -le 70) # Si l'usage RAM est en dessous de 70%
     {
-        $ColorRAM= 'w3-green' #La variable ColorRAM prend la valeur vert
+        $script:ColorRAM= 'w3-green' #La variable ColorRAM prend la valeur vert - Les variable Color sont de portées globale pour pouvoir fonctionner dans la fonction Statut
     }
 
     elseif(($RAMUsage -gt 70) -and ($RAMUsage -le 85)) #Sinon si l'usage RAM est entre  de 70% et 85%
     {
-        $ColorRAM = 'w3-yellow' #La variable ColorRAM prend la valeur jaune
+        $script:ColorRAM = 'w3-yellow' #La variable ColorRAM prend la valeur jaune
     }
 
     else #Sinon
     {
-        $ColorRAM = 'w3-red'#La variable ColorRAM prend la valeur rouge
+        $script:ColorRAM = 'w3-red'#La variable ColorRAM prend la valeur rouge
     }
     
     "<td class=" +$ColorRAM +">" + $RAMUsage + " %" +"</td>" | Out-File $HTMLSupervision -Append utf8 #J'ajoute la variable RAMUsage au HTML avec la couleur qui va bien
@@ -128,8 +128,3 @@ function statut
     "<td class=" +$ColorStatut +">" + $Statut +"</td>" | Out-File $HTMLSupervision -Append utf8 #J'ajoute la variable Statut au HTML avec la couleur qui va bien
 
 }
-
-
-
-
-#Nathan
