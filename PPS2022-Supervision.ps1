@@ -2,10 +2,10 @@
 
 
 #Le fichier d'entrée avec les noms des windows core
-$NomsServeurs = Get-Content 'C:\Users\B0003296\OneDrive - Groupe BPCE\Documents\PowerShell\Script Supervision\NomsServeurs.txt'
+$NomsServeurs = Get-Content 'CHEMINWINDOWS\NomsServeurs.txt'
 
 #Le fichier HTML de sortie qui sera la page web de supervision
-$HTMLSupervision = 'C:\Users\B0003296\OneDrive - Groupe BPCE\Documents\PowerShell\Script Supervision\HTMLSupervision.html'
+$HTMLSupervision = 'CHEMINWINDOWS\HTMLSupervision.html'
 
 #Ajout du module w3 css et réglages de la barre superieur du tableau HTML
 '<body class="w3-tiny">
