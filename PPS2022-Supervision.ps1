@@ -5,7 +5,7 @@
 $NomsServeurs = Get-Content 'CHEMINWINDOWS\NomsServeurs.txt'
 
 #Le fichier HTML de sortie qui sera la page web de supervision
-$HTMLSupervision = 'CHEMINWINDOWS\HTMLSupervision.html'
+$HTMLSupervision = 'C:\inetpub\wwwroot\Index.html'
 
 #Ajout du module w3 css et réglages de la barre superieur du tableau HTML
 '<body class="w3-tiny">
