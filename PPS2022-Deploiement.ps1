@@ -5,6 +5,7 @@ function VerificationModuleAz {
     # # #Installer le module Azure Powershell#
     # Install-Module -Name Az -Scope CurrentUser -Repository PSGallery -Force
 }
+VerificationModuleAZ
 
 function CreationRG {
     #Demande des identifiants
@@ -16,6 +17,7 @@ function CreationRG {
     #Créer un groupe de ressources#
     New-AzResourceGroup -Name ProjetPowershell -Location 'Switzerland North'
 }
+CreationRG
 
 function DeploiementARM {
     #Utiliser une template ARM#
@@ -25,3 +27,4 @@ function DeploiementARM {
     $TemplateARMsrvWEB = ".\PPS2022-Template-ARM-ServeurWeb.json"
     New-AzResourceGroupDeployment -Name DeploiementProjet -ResourceGroupName ProjetPowershell -TemplateFile $TemplateARMsrvWEB
 }
+DeploiementARM
