@@ -1,19 +1,29 @@
-# ProjetAnnuel_Powershell
-Projet d'infrastructure via Script powershell
+![alt text](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png "Logo Title Text 1")
+![alt text](https://github.com/adam-p/markdown-here/raw/master/src/common/images/icon48.png "Logo Title Text 1")
 
-normalisation des noms:
- pps2022 = projet powershell 2022
+# Projet annuel powershell
 
-exemple script:
- pps2022-script-deploiement
- pps2022-script-FONCTIONduSCRIPT
+Projet d'infrastructure via script powershell
 
-exemple nom d'une machine:
- pps2022-srv-AD
- pps2022-srv-SERVICESDEPLOIE
+## Normalisation des noms:
 
+ PPS2022 = projet powershell 2022
 
-liste scripts et leurs fonctions:
- pps2022-script-deploiement  ---> connexion à azure avec demande des identifiants et les stocks chiffré, déploiement d'un serveur windows core via template ARM
+### exemple script:
 
- pps2022-Template-ARM ---> template utilisé par le script powershell pour le déploiement sur azure
+ PPS2022-script-FONCTIONduSCRIPT
+ 
+ PPS2022-script-deploiement
+ 
+
+### exemple nom d'une machine:
+
+ PPS2022-srv-SERVICESDEPLOIE
+ 
+ PPS2022-srv-AD
+
+## Liste des scripts et leurs fonctions:
+
+ PPS2022-Script-Deploiement  ---> connexion à azure avec demande des identifiants et les stocks chiffré, déploiement d'un serveur windows core via template ARM
+
+ PPS2022-Template-ARM ---> template utilisé par le script powershell pour le déploiement sur azure
