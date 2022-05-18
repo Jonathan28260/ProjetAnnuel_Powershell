@@ -1,1 +1,1 @@
-Get-Credential -Message "Test ARM"
+Hostname
