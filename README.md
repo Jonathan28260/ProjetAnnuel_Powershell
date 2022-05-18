@@ -1,5 +1,5 @@
-![alt text](https://github.com/Jonathan28260/ProjetAnnuel_Powershell/blob/da14e7e17560d94bb9fa55408f6834936b7a12b4/Logo/Logo_Sciences-U_Lyon.jpg)
-![alt text](https://github.com/Jonathan28260/ProjetAnnuel_Powershell/blob/da14e7e17560d94bb9fa55408f6834936b7a12b4/Logo/Logo_ESGI.jpg)
+![alt text](https://github.com/Jonathan28260/ProjetAnnuel_Powershell/blob/main/Logo/Logo_Sciences-U_Lyon.jpg)
+![alt text](https://github.com/Jonathan28260/ProjetAnnuel_Powershell/blob/main/Logo/Logo_ESGI.jpg)
 
 # Projet annuel powershell
 
