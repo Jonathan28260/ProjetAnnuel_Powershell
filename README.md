@@ -28,7 +28,13 @@ Projet d'infrastructure via script powershell
 ```
 ## Liste des scripts et leurs fonctions:
 ```
- PPS2022-Script-Deploiement  ---> Script déploiement infrastructure Azure
-
- PPS2022-Template-ARM ---> Template ARM utilisé pour le déploiement
+ PPS2022-Deploiement.ps1  ---> Script déploiement infrastructure Azure
+ 
+ PPS2022-InstallServices.ps1 ---> Script d'installation des services AD/DNS/DHCP/IIS
+ 
+ PPS2022-Supervision.ps1 ---> Script de supervision HTML
+ 
+ PPS2022-Template-ARM-DC.json ---> Template ARM utilisé pour le déploiement du contrôleur de doaine
+ 
+ PPS2022-Template-ARM-IIS.json ---> Template ARM utilisé pour le déploiement du serveur web
 ```
