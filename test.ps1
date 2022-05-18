@@ -1,1 +1,2 @@
-Hostname
+$env:computername
+Get-Credential
