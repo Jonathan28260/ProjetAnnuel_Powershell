@@ -5,7 +5,6 @@
 # Projet annuel powershell
 ```
 Projet d'automatisation du déploiement d'une infrastructure via script powershell dans Azure 
-
 ```
 
 ## Normalisation des noms:
@@ -56,7 +55,8 @@ Le script va par la suite créer un groupe de ressource "PPS2022-RG", puis appel
 
 ### Installation des services
 ```
-
+L'installation des services est également entièrement automatisé.
+Le script "PPS2022-InstallServices.ps1" est appelé par la template "PPS2022-Template-ARM-DC.json" grâce à la ressource "Microsoft.Resources/deploymentScripts".
 ```
 
 ### Monitoring
