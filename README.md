@@ -34,7 +34,32 @@ Projet d'automatisation du déploiement d'une infrastructure via script powershe
  
  PPS2022-Supervision.ps1 ---> Script de supervision HTML
  
- PPS2022-Template-ARM-DC.json ---> Template ARM utilisé pour le déploiement du contrôleur de doaine
+ PPS2022-Template-ARM-DC.json ---> Template ARM utilisé pour le déploiement du contrôleur de domaine
  
  PPS2022-Template-ARM-IIS.json ---> Template ARM utilisé pour le déploiement du serveur web
+```
+## Comment utiliser les scripts
+
+### Deploiement
+```
+Le projet étant entièrement automatisé, il n'est nécéssaire que d'exécuter le script PPS2022-Deploiement.ps1
+Tous les autres scripts et templates ARM sont appelés à partir du script de déploiement.
+
+Une fois le script de déploiement exécuté, une vérification du module Azure pour powershell est réalisée pour vérifier si le module est installé.
+Si le module n'est pas installé le script va le télécharger et l'installer automatiquement pour prendre en charge le reste des commandes du script deploiement.
+
+Après la vérification/installation du module Azure, une demande d'identifiants sera affichée pour la connexion au compte Azure.
+La demande d'identifiants est sous forme d'une fenêtre interactive et enregistre le mot de passe fournis en tant qu'objet PSCredential.
+
+Le script va par la suite créer un groupe de ressource "PPS2022-RG", puis appeler les templates ARM pour déployer les machines virtuelles ainsi que les ressources nécéssaire.
+```
+
+### Installation des services
+```
+
+```
+
+### Monitoring
+```
+
 ```
