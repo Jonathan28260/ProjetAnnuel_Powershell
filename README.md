@@ -10,17 +10,17 @@ Projet d'infrastructure via script powershell
 
 ## Normalisation des noms:
 ```
- PPS2022 = projet powershell 2022
+ PPS2022 = Projet PowerShell 2022
 ```
 
 ### Exemple script:
 ```
- PPS2022-script-FONCTIONduSCRIPT
+ PPS2022-FONCTIONduSCRIPT
  
- PPS2022-script-deploiement
+ PPS2022-Deploiement
 ``` 
 
-### Exemple nom d'une machine:
+### Exemple nom d'une VM:
 ```
  PPS2022-srv-SERVICESDEPLOIE
  
