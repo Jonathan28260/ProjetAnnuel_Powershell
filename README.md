@@ -4,7 +4,7 @@
 
 # Projet annuel powershell
 ```
-Projet d'infrastructure via script powershell 
+Projet d'automatisation du déploiement d'une infrastructure via script powershell dans Azure 
 
 ```
 
