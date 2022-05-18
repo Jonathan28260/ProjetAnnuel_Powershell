@@ -1,1 +1,1 @@
-echo some-text > c:\test.txt
+Get-Credential -Message "Test ARM"
