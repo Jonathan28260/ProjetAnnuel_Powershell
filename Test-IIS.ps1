@@ -1,8 +1,5 @@
 function PPS2022-InstallIIS{
-
-    $sessionId = New-PSSession -ComputerName "PPS2022-SRV-IIS" -Credential "PPS2022\Administrateur"
-    Invoke-Command -Session $sessionId -Scriptblock {
-    
+   
     #Installer IIS et les composants
     Install-WindowsFeature web-server -IncludeManagementTools
     Install-windowsfeature web-mgmt-service
