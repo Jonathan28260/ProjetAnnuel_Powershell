@@ -1,5 +1,3 @@
-powershell
-
 function PPS2022installIIS{
    
     #Installer IIS et les composants
