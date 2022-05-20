@@ -1,4 +1,4 @@
-function PPS2022-InstallIIS{
+function PPS2022installIIS{
    
     #Installer IIS et les composants
     Install-WindowsFeature web-server -IncludeManagementTools
@@ -10,8 +10,4 @@ function PPS2022-InstallIIS{
     Net Stop WMSVC
     Net Start WMSVC
     }
-
-
-
-}
-PPS2022-InstallIIS
+PPS2022installIIS
