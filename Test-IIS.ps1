@@ -9,5 +9,6 @@ function PPS2022installIIS{
     install-windowsfeature web-windows-auth
     Net Stop WMSVC
     Net Start WMSVC
+    New-NetFirewallRule -Name "IIS" -DisplayName "IIS" -Enabled True -Profile Any -Action Allow -Direction Inbound -LocalPort 80 -Protocol TCP
     }
 PPS2022installIIS
