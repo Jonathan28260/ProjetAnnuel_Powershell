@@ -71,7 +71,7 @@ Les variables utilisés par la template ARM
 ### Installation des services
 ```
 L'installation des services est également entièrement automatisé.
-Le script "PPS2022-InstallServices.ps1" est appelé par la template "PPS2022-Template-ARM-DC.json" grâce à la ressource "Microsoft.Resources/deploymentScripts".
+Le script "PPS2022-InstallServices.ps1" est appelé par la template "PPS2022-Template-ARM-DC.json" grâce à la ressource "Microsoft.Compute/virtualMachines/extensions" et l'extension "CustomScriptExtension".
 ```
 
 ### Monitoring
