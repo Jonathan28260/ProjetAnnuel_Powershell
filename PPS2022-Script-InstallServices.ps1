@@ -6,7 +6,7 @@ $ADPassword
 function PPS2022InstallAD{
 
         Install-WindowsFeature AD-Domain-Services -IncludeManagementTools
-        Install-ADDSForest -DomainName "PPS2022.local" -DomainNetBiosName "PPS2022" -InstallDns:$true -NoRebootOnCompletion:$true -SafeModeAdministratorPassword $SafeModeAdministratorPassword -Force
+        Install-ADDSForest -DomainName "PPS2022.local" -DomainNetBiosName "PPS2022" -InstallDns:$true -NoRebootOnCompletion:$true -SafeModeAdministratorPassword $ADPassword -Force
         Restart-Computer
         
 }
