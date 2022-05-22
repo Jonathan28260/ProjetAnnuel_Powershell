@@ -1,3 +1,8 @@
+param
+(
+      [Securestring]$SafeModeAdministratorPassword
+
+)
 
 function PPS2022InstallAD{
 
