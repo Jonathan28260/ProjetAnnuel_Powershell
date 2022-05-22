@@ -10,6 +10,6 @@ function PPS2022InstallAD{
     }
     Restart-Computer
 }
-
+PPS2022InstallAD
 
 
