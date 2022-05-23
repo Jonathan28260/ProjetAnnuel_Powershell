@@ -2,7 +2,7 @@
 
 
 #Le fichier d'entrée avec les noms des windows core
-$NomsServeurs = Get-Content 'CHEMINWINDOWS\NomsServeurs.txt'
+$NomsServeurs = Get-Content 'C:\Scripts\NomsServeurs.txt'
 
 #Le fichier HTML de sortie qui sera la page web de supervision
 $HTMLSupervision = 'C:\inetpub\wwwroot\Index.html'
