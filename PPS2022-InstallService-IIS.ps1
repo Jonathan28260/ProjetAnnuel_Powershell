@@ -32,7 +32,7 @@ function JoinDomain{
 function ScheduledTask{
 
     New-item -Path "C:\" -Name "Scripts" -ItemType "directory"
-    ADD-content -path "C:\Scripts\PPS2022-Loop-Supervision.ps1" -value "PPS2022-Loop"
+    ADD-content -path "C:\Scripts\PPS2022-Loop-Supervision.ps1" -value "while($true){ C:\Scripts\PPS2022-Supervision.ps1 sleep -seconds 10 }"
     cd C:\Scripts
     Invoke-WebRequest -Uri "https://github.com/Jonathan28260/ProjetAnnuel_Powershell/blob/main/PPS2022-Supervision.ps1" 
 
