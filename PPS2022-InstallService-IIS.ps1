@@ -1,3 +1,7 @@
+param(
+$DomainPassword
+)
+
 function PPS2022installIIS{
 
     #Installer IIS et les composants
@@ -13,6 +17,17 @@ function PPS2022installIIS{
     
     }
 PPS2022installIIS
+
+function JoinDomain{
+
+    #Ajout du DC en DNS pour rejoindre le domaine#
+    Set-DnsClientServerAddress -InterfaceAlias "Ethernet" -ServerAddresses "192.168.1.10"
+    #netsh interface ip set dns "Ethernet" static 192.168.1.10
+
+    #Joindre le domaine#
+    Add-Computer -DomainName PPS2022.local -DomainCredential administrateur@PPS2022.local -Password $DomainPassword
+
+}
 
 function ScheduledTask{
 
