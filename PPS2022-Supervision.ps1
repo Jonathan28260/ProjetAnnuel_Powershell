@@ -29,27 +29,27 @@ $HTMLSupervision = 'C:\inetpub\wwwroot\Index.html'
 
 
 
-function Supervision #Fonction qui contient toutes les autres fonctions pour la supervision
+function PSS2022Supervision #Fonction qui contient toutes les autres fonctions pour la supervision
 {
     foreach($Nom in $NomsServeurs)
     {
-        CPUUsage
-        RAMUsage
-        Statut
+        PSS2022SupervisionCPUUsage
+        PSS2022SupervisionRAMUsage
+        PSS2022SupervisionStatut
         "<tr class=" +$ColorStatut +"><td class>"+ $Nom +"</td>" | Out-File $HTMLSupervision -Append utf8 #J'affiche le nom du serveur
-        AdresseIP
-        OSInformation
-        CPUUsage
+        PSS2022SupervisionAdresseIP
+        PSS2022SupervisionOSInformation
+        PSS2022SupervisionCPUUsage
         "<td class=" +$ColorCPU +">" + $CPUUsage + " %" +"</td>" | Out-File $HTMLSupervision -Append utf8 #J'ajoute la variable Usage CPU au HTML avec la couleur en fonction de l'usage CPU
-        RAMUsage
+        PSS2022SupervisionRAMUsage
         "<td class=" +$ColorRAM +">" + $RAMUsage + " %" +"</td>" | Out-File $HTMLSupervision -Append utf8 #J'ajoute la variable RAMUsage au HTML avec la couleur qui va bien
-        Statut
+        PSS2022SupervisionStatut
         "<td class=" +$ColorStatut +">" + $Statut +"</td>" | Out-File $HTMLSupervision -Append utf8 #J'ajoute la variable Statut au HTML avec la couleur qui va bien
     }
 }
 
 
-function AdresseIP #Le but de cette fonction est de connaitre l'IP en connaissant le nom DNS
+function PSS2022SupervisionAdresseIP #Le but de cette fonction est de connaitre l'IP en connaissant le nom DNS
 {
     $IP = (Resolve-DNSName $Nom -Type A).IPAddress -join " - " #Resolution DNS pour avoir IP, separation de multiresultats par un tiret
     
@@ -57,7 +57,7 @@ function AdresseIP #Le but de cette fonction est de connaitre l'IP en connaissan
 }
 
 
-function OSInformation
+function PSS2022SupervisionOSInformation
 {
     $OSVersion = (Get-WmiObject Win32_OperatingSystem -ComputerName $Nom).Caption #Commande pour connaitre la version de l'OS
     $OSBuild = (Get-WmiObject Win32_OperatingSystem -ComputerName $Nom).BuildNumber #Commande pour connaitre le numero de build de l'OS
@@ -66,7 +66,7 @@ function OSInformation
 }
 
 
-function CPUUsage
+function PSS2022SupervisionCPUUsage
 {
     $script:CPUUsage = (Get-WmiObject -ComputerName $Nom -Class win32_processor -ErrorAction Stop | Measure-Object -Property LoadPercentage -Average | Select-Object Average).Average #Commande pour avoir l'usage du CPU en pourcents
     if ($CPUUsage -le 70) # Si l'usage CPU est en dessous de 70%
@@ -87,7 +87,7 @@ function CPUUsage
 }
 
 
-function RAMUsage
+function PSS2022SupervisionRAMUsage
 {
     $RAMInfos =  Get-WmiObject -Class WIN32_OperatingSystem -ComputerName $Nom  #Je recupere les informations hardware
     $script:RAMUsage = [math]::round((($RAMInfos.TotalVisibleMemorySize - $RAMInfos.FreePhysicalMemory)*100)/ $RAMInfos.TotalVisibleMemorySize) #math pour limiter les decimales; Ensuite calcul entre la ram utilisé et la ram totale pour avoir un pourcentage d'utilisation
@@ -109,7 +109,7 @@ function RAMUsage
 }
 
 
-function statut
+function PSS2022Supervisionstatut
 {
     if(($ColorCPU -eq 'w3-green') -and ($ColorRAM -eq 'w3-green')) #Si la RAM et le CPU sont au vert
     {
@@ -129,4 +129,4 @@ function statut
         $script:ColorStatut = 'w3-pale-yellow' #La variable ColorStatut sera jaune
     }
 }
-Supervision
+PSS2022Supervision
