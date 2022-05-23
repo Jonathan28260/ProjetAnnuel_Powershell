@@ -42,7 +42,7 @@ function ScheduledTask{
 
     $action=New-ScheduledTaskAction -Execute "powershell.exe" -Argument "-ExecutionPolicy Bypass C:\Scripts\PPS2022-Loop-Supervision.ps1"
     $trigger=New-ScheduledTaskTrigger -Once -AtStartup
-    Register-ScheduledTask -TaskName "Supervision" -Trigger $trigger -Action $action -Description "Supervision" -User "PPS2022\Administrateur"
+    Register-ScheduledTask -TaskName "Supervision" -Trigger $trigger -Action $action -Description "Supervision" -User "Administrateur"
 
     }
 ScheduledTask    
