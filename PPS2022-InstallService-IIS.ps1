@@ -18,6 +18,8 @@ function PPS2022installIIS{
     }
 PPS2022installIIS
 
+Start-Sleep -s 120
+
 function JoinDomain{
 
     #Ajout du DC en DNS pour rejoindre le domaine#
