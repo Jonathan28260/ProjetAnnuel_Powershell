@@ -29,8 +29,8 @@ function ScheduledTask{
     Invoke-WebRequest -UseBasicParsing -Uri "https://raw.githubusercontent.com/Jonathan28260/ProjetAnnuel_Powershell/main/PPS2022-Supervision.ps1" -OutFile C:\Scripts\PPS2022-Supervision.ps1 
 
     $action=New-ScheduledTaskAction -Execute "powershell.exe" -Argument "-ExecutionPolicy Bypass C:\Scripts\PPS2022-Loop-Supervision.ps1"
-    $trigger=New-ScheduledTaskTrigger -Once -AtStartup
-    Register-ScheduledTask -TaskName "Supervision" -Trigger $trigger -Action $action -Description "Supervision" -User NTAuthority\SYSTEM
+    $trigger=New-ScheduledTaskTrigger -AtStartup
+    Register-ScheduledTask -TaskName "Supervision" -Trigger $trigger -Action $action -Description "Supervision" -User SYSTEM
 
     }
 ScheduledTask    
