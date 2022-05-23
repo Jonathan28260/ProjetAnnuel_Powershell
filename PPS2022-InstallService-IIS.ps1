@@ -25,7 +25,7 @@ function JoinDomain{
    
     #Joindre le domaine#
     $Domain = "PPS2022.local"
-    $username = PPS2022\Administrateur
+    $username = "PPS2022\Administrateur"
     $Password = ConvertTo-SecureString $DomainPassword  -AsPlainText  -Force 
     $credential = new-object -typename System.Management.Automation.PSCredential -argumentlist $username, $password
     Add-Computer -DomainName $Domain -Credential $credential
