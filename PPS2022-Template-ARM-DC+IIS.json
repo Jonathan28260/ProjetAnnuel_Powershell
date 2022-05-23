@@ -1,0 +1,327 @@
+{
+    "$schema": "https://schema.management.azure.com/schemas/2019-04-01/deploymentTemplate.json#",
+    "contentVersion": "1.0.0.0",
+    "parameters": {
+        "adminUsername": {
+            "type": "string",
+            "metadata": {
+                "description": "Nom d'utilisateur pour le compte administrateur"
+            }
+        },
+        "adminPassword": {
+            "type": "securestring",
+            "metadata": {
+                "description": "Mot de passe pour le compte administrateur"
+            }
+        },
+    "dnsLabelPrefix": {
+      "type": "array",
+        "defaultValue": [
+                "pps2022srviis",
+                "pps2022srvdc"
+            ],
+      "metadata": {
+        "description": "Nom de DNS unique pour l'adresse ip public de la VM"
+      }
+    },
+    "publicIPAllocationMethod": {
+      "type": "string",
+      "defaultValue": "Static",
+      "allowedValues": [
+        "Dynamic",
+        "Static"
+      ],
+      "metadata": {
+        "description": "Méthode d'allocation de l'adresse IP"
+      }
+    },
+    "publicIpSku": {
+      "type": "string",
+      "defaultValue": "Basic",
+      "allowedValues": [
+        "Basic",
+        "Standard"
+      ],
+      "metadata": {
+        "description": "SKU pour l'adresse IP public de la machine virtuelle."
+      }
+    },      
+        "OSVersion": {
+            "type": "string",
+            "defaultValue": "2019-datacenter-core-g2",
+            "metadata": {
+                "description": "Version de l'OS"
+                }
+        },
+        "location": {
+            "type": "string",
+            "defaultValue": "[resourceGroup().location]",
+            "metadata": {
+                "description": "Localisation des ressources"
+            }
+        },
+        "vmSize": {
+            "type": "string",
+            "defaultValue": "Standard_D2s_v3",
+            "metadata": {
+                "description": "Taille de la VM"
+            }
+        },
+        "vmName": {
+            "type": "array",
+            "defaultValue": [
+                "PPS2022-SRV-IIS",
+                "PPS2022-SRV-DC"
+     ]
+   },
+   "NicName": {
+            "type": "array",
+            "defaultValue": [
+                "PPS2022-VMNic-IIS",
+                "PPS2022-VMNic-DC"
+     ]
+   },
+   "IpPublicName": {
+            "type": "array",
+            "defaultValue": [
+                "PPS2022-IpPublic-IIS",
+                "PPS2022-IpPublic-DC"
+     ]
+   }
+    },
+    "variables": {
+        "virtualNetworkName": "PPS2022-VNET",
+        "addressPrefix": "192.168.0.0/16",
+        "subnetName": "PPS2022-Subnet",
+        "subnetPrefix": "192.168.1.0/24",
+        "subnetRef": "[resourceId('Microsoft.Network/virtualNetworks/subnets',variables('virtualNetworkName'),variables('subnetName'))]",
+        "availabilitySetName": "PPS2022-AvSet",
+        "storageAccountName": "pps2022storageaccount",
+        "networkSecurityGroupName": "PPS2022-NSG"
+    },
+    "resources": [
+        {
+            "type": "Microsoft.Compute/availabilitySets",
+            "name": "[variables('availabilitySetName')]",
+            "apiVersion": "2016-04-30-preview",
+            "location": "[parameters('location')]",
+            "properties": {
+                "platformFaultDomainCount": 2,
+                "platformUpdateDomainCount": 2,
+                "managed": true
+            }
+        },
+        {
+            "type": "Microsoft.Storage/storageAccounts",
+            "apiVersion": "2019-06-01",
+            "name": "[variables('storageAccountName')]",
+            "location": "[parameters('location')]",
+            "sku": {
+                "name": "Standard_LRS"
+            },
+      "kind": "Storage"
+        },
+         {
+      "type": "Microsoft.Network/publicIPAddresses",
+      "apiVersion": "2020-05-01",
+      "name": "[parameters('IpPublicName')[copyIndex()]]",
+                "copy": {
+                    "name": "PPS2022-Boucle-IpPublic",
+                    "count": "[length(parameters('IpPublicName'))]"
+                 },
+      "location": "[parameters('location')]",
+      "sku": {
+        "name": "[parameters('publicIpSku')]"
+      },
+      "properties": {
+        "publicIPAllocationMethod": "[parameters('publicIPAllocationMethod')]",
+        "dnsSettings": {
+          "domainNameLabel": "[parameters('dnsLabelPrefix')[copyIndex()]]"
+        }
+      }
+    },
+    {
+      "type": "Microsoft.Network/networkSecurityGroups",
+      "apiVersion": "2020-05-01",
+      "name": "[variables('networkSecurityGroupName')]",
+      "location": "[parameters('location')]",
+      "properties": {
+        "securityRules": [
+          {
+            "name": "default-allow-3389",
+            "properties": {
+              "priority": 1000,
+              "access": "Allow",
+              "direction": "Inbound",
+              "destinationPortRange": "3389",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "*",
+              "destinationAddressPrefix": "*"
+            }
+          },
+          {
+            "name": "PSsession5986",
+            "properties": {
+              "priority": 999,
+              "access": "Allow",
+              "direction": "Inbound",
+              "destinationPortRange": "5986",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "*",
+              "destinationAddressPrefix": "*"
+            }
+          },
+          {
+            "name": "IIS80",
+            "properties": {
+              "priority": 1010,
+              "access": "Allow",
+              "direction": "Inbound",
+              "destinationPortRange": "80",
+              "protocol": "Tcp",
+              "sourcePortRange": "*",
+              "sourceAddressPrefix": "*",
+              "destinationAddressPrefix": "*"
+            }
+          }
+        ]
+      }
+    },
+        {
+            "type": "Microsoft.Network/virtualNetworks",
+            "name": "[variables('virtualNetworkName')]",
+            "apiVersion": "2016-03-30",
+            "location": "[parameters('location')]",
+            "properties": {
+                "addressSpace": {
+                    "addressPrefixes": [
+                        "[variables('addressPrefix')]"
+                    ]
+                },
+                "subnets": [
+                    {
+                        "name": "[variables('subnetName')]",
+                        "properties": {
+                            "addressPrefix": "[variables('subnetPrefix')]"
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "type": "Microsoft.Network/networkInterfaces",
+            "name": "[parameters('NicName')[copyIndex()]]",
+                "copy": {
+                    "name": "PPS2022-Boucle-NIC",
+                    "count": "[length(parameters('NicName'))]"
+                 },
+            "apiVersion": "2016-03-30",
+            "location": "[parameters('location')]",
+            "dependsOn": [
+                "[variables('virtualNetworkName')]"
+            ],
+            "properties": {
+                "ipConfigurations": [
+                    {
+                        "name": "PPS2022-IPconfig",
+                        "properties": {
+                            "privateIPAllocationMethod": "Dynamic",
+                            "publicIPAddress": {
+                                 "id": "[resourceId('Microsoft.Network/publicIPAddresses', parameters('IpPublicName')[copyIndex()])]",
+                                    "copy": {
+                                        "name": "PPS2022-Boucle-IpPublic",
+                                        "count": "[length(parameters('IpPublicName'))]"
+                                    }
+                            },
+                            "subnet": {
+                                "id": "[variables('subnetRef')]"
+                            }
+                        }
+                    }
+                ]
+            }
+        },
+        {
+            "type": "Microsoft.Compute/virtualMachines",
+            "apiVersion": "2016-04-30-preview",
+            "name": "[parameters('vmName')[copyIndex()]]",
+                "copy": {
+                    "name": "PPS2022-Boucle-vmName",
+                    "count": "[length(parameters('vmName'))]"
+                },
+            "location": "[parameters('location')]",
+            "dependsOn": [
+                "PPS2022-Boucle-NIC"
+            ],
+            "properties": {
+                "availabilitySet": {
+                    "id": "[resourceId('Microsoft.Compute/availabilitySets', variables('availabilitySetName'))]"
+                },
+                "hardwareProfile": {
+                    "vmSize": "[parameters('vmSize')]"
+                },
+                "osProfile": {
+                    "computerName": "[parameters('vmName')[copyIndex()]]",
+                    "adminUsername": "[parameters('adminUsername')]",
+                    "adminPassword": "[parameters('adminPassword')]"
+                },
+                "storageProfile": {
+                    "imageReference": {
+                        "publisher": "MicrosoftWindowsServer",
+                        "offer": "WindowsServer",
+                        "sku": "[parameters('OSVersion')]",
+                        "version": "latest"
+                    },
+                    "osDisk": {
+                        "createOption": "FromImage"
+                    }
+                },
+                "networkProfile": {
+                    "networkInterfaces": [
+                        {
+                            "id": "[concat(resourceId('Microsoft.Network/networkInterfaces', parameters('NicName')[copyIndex()]))]",
+                                "copy": {
+                                    "name": "PPS2022-Boucle-NicName",
+                                    "count": "[length(parameters('NicName'))]"
+                                 }
+                        }
+                    ]
+                }
+            }
+        },
+        {
+            "type": "Microsoft.Compute/virtualMachines/extensions",
+            "apiVersion": "2018-06-01",
+            "name": "PPS2022-SRV-IIS/config-app",
+            "location": "[resourceGroup().location]",   
+            "tags": {
+                "displayName": "PPS2022-InstallServices"
+                 },
+            "properties": {
+                    "publisher": "Microsoft.Compute",
+                    "type": "CustomScriptExtension",
+                    "typeHandlerVersion": "1.10",
+                    "autoUpgradeMinorVersion": true,
+                    "settings": {
+                    "timestamp":123456789
+                        },
+                    "protectedSettings": {
+                            "storageAccountName": "[variables('storageAccountName')]",
+                            "storageAccountKey": "[listKeys(variables('storageAccountName'), '2019-04-01').keys[0].value]",
+                            "commandToExecute": "powershell -ExecutionPolicy Unrestricted -File Test-IIS.ps1 ",
+                            "fileUris": [
+                                "https://raw.githubusercontent.com/Jonathan28260/ProjetAnnuel_Powershell/main/Test-IIS.ps1"
+                            ]
+                        }
+                }
+         }     
+    ]
+    //   "outputs": {
+    // "hostname": {
+    //   "type": "string",
+    //   "value": "[reference(resourceId('Microsoft.Network/publicIPAddresses', parameters('IpPublicName'))).dnsSettings.fqdn]"
+    // }
+//   }
+}

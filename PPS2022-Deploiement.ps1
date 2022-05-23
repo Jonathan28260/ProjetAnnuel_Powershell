@@ -21,10 +21,7 @@ CreationRG
 
 function DeploiementARM {
     #Utiliser une template ARM#
-    $TemplateARMdc = ".\PPS2022-Template-ARM-DC.json"
-    New-AzResourceGroupDeployment -Name DeploiementProjet -ResourceGroupName ProjetPowershell -TemplateFile $TemplateARMdc
-
-    $TemplateARMsrvWEB = ".\PPS2022-Template-ARM-ServeurWeb.json"
-    New-AzResourceGroupDeployment -Name DeploiementProjet -ResourceGroupName ProjetPowershell -TemplateFile $TemplateARMsrvWEB
+    $TemplateARM = ".\PPS2022-Template-ARM-DC+IIS.json"
+    New-AzResourceGroupDeployment -Name DeploiementProjet -ResourceGroupName ProjetPowershell -TemplateFile $TemplateARM
 }
 DeploiementARM

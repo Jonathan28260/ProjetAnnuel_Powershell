@@ -52,11 +52,26 @@ La demande d'identifiants est sous forme d'une fenêtre interactive et enregistr
 
 - Le script va par la suite créer un groupe de ressource "PPS2022-RG", puis appeler les templates ARM pour déployer les machines virtuelles ainsi que les ressources nécéssaire.
 ```
+### Template ARM
+```
+Les ressources déployées avec la template ARM
+```
+![alt text](https://github.com/Jonathan28260/ProjetAnnuel_Powershell/blob/main/Logo/Ressources.png)
+
+```
+Les paramètres utilisés par la template ARM
+```
+![alt text](https://github.com/Jonathan28260/ProjetAnnuel_Powershell/blob/main/Logo/Param%C3%A8tres.png)
+
+```
+Les variables utilisés par la template ARM
+```
+![alt text](https://github.com/Jonathan28260/ProjetAnnuel_Powershell/blob/main/Logo/Variables.png)
 
 ### Installation des services
 ```
 L'installation des services est également entièrement automatisé.
-Le script "PPS2022-InstallServices.ps1" est appelé par la template "PPS2022-Template-ARM-DC.json" grâce à la ressource "Microsoft.Resources/deploymentScripts".
+Le script "PPS2022-InstallServices.ps1" est appelé par la template "PPS2022-Template-ARM-DC.json" grâce à la ressource "Microsoft.Compute/virtualMachines/extensions" et l'extension "CustomScriptExtension".
 ```
 
 ### Monitoring
