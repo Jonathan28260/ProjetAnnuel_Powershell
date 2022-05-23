@@ -28,6 +28,7 @@ function JoinDomain{
     Add-Computer -DomainName PPS2022.local -DomainCredential administrateur@PPS2022.local -Password $DomainPassword
 
 }
+JoinDomain
 
 function ScheduledTask{
 
@@ -42,3 +43,4 @@ function ScheduledTask{
     Register-ScheduledTask -TaskName "Supervision" -Trigger $trigger -Action $action -Description "Supervision" -User "PPS2022\Administrateur"
 
     }
+ScheduledTask    
