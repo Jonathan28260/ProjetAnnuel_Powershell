@@ -18,17 +18,20 @@ function PPS2022installIIS{
     }
 PPS2022installIIS
 
-# function JoinDomain{
+function JoinDomain{
 
-#     #Ajout du DC en DNS pour rejoindre le domaine#
-#     Set-DnsClientServerAddress -InterfaceAlias "Ethernet" -ServerAddresses "192.168.1.10"
-#     #netsh interface ip set dns "Ethernet" static 192.168.1.10
+    #Ajout du DC en DNS pour rejoindre le domaine#
+    Set-DnsClientServerAddress -InterfaceAlias "Ethernet" -ServerAddresses "192.168.1.10"
+   
+    #Joindre le domaine#
+    $Domain = "PPS2022.local"
+    $username = PPS2022\Administrateur
+    $Password = ConvertTo-SecureString $DomainPassword  -AsPlainText  -Force 
+    $credential = new-object -typename System.Management.Automation.PSCredential -argumentlist $username, $password
+    Add-Computer -DomainName $Domain -Credential $credential
 
-#     #Joindre le domaine#
-#     Add-Computer -DomainName PPS2022.local -DomainCredential administrateur@PPS2022.local -Password $DomainPassword
-
-# }
-# JoinDomain
+}
+JoinDomain
 
 function ScheduledTask{
 
