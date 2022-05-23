@@ -129,3 +129,4 @@ function statut
         $script:ColorStatut = 'w3-pale-yellow' #La variable ColorStatut sera jaune
     }
 }
+Supervision
