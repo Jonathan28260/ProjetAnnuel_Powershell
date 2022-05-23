@@ -23,8 +23,7 @@ function ScheduledTask{
     New-item -Path "C:\" -Name "Scripts" -ItemType "directory"
     ADD-content -path "C:\Scripts\PPS2022-Loop-Supervision.ps1" -value 'while($true){ C:\Scripts\PPS2022-Supervision.ps1 
     sleep -seconds 10 }'
-    ADD-content -path "C:\Scripts\NomsServeurs.txt" -value "PPS2022-SRV-DC
-    PPS2022-SRV-IIS"
+    ADD-content -path "C:\Scripts\NomsServeurs.txt" -value "PPS2022-SRV-DC `nPPS2022-SRV-IIS"
     cd C:\Scripts
     Invoke-WebRequest -UseBasicParsing -Uri "https://raw.githubusercontent.com/Jonathan28260/ProjetAnnuel_Powershell/main/PPS2022-Supervision.ps1" -OutFile C:\Scripts\PPS2022-Supervision.ps1 
 
