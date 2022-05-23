@@ -8,7 +8,8 @@ $NomsServeurs = Get-Content 'CHEMINWINDOWS\NomsServeurs.txt'
 $HTMLSupervision = 'C:\inetpub\wwwroot\Index.html'
 
 #Ajout du module w3 css et réglages de la barre superieur du tableau HTML
-'<body class="w3-tiny">
+'<meta http-equiv="refresh" content="13"
+<body class="w3-tiny">
 <div class="w3-responsive "w3-tiny"">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
 <h4 class="w3-indigo w3-center">Resultats du '+(Get-date -Format "dd/MM/yyyy HH:mm")+'</h4>
