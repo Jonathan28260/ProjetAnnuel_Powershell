@@ -66,7 +66,7 @@ function PPS2022SupervisionOSInformation
 }
 
 
-function PSS2022SupervisionCPUUsage
+function PPS2022SupervisionCPUUsage
 {
     $script:CPUUsage = (Get-WmiObject -ComputerName $Nom -Class win32_processor -ErrorAction Stop | Measure-Object -Property LoadPercentage -Average | Select-Object Average).Average #Commande pour avoir l'usage du CPU en pourcents
     if ($CPUUsage -le 70) # Si l'usage CPU est en dessous de 70%
@@ -87,7 +87,7 @@ function PSS2022SupervisionCPUUsage
 }
 
 
-function PSS2022SupervisionRAMUsage
+function PPS2022SupervisionRAMUsage
 {
     $RAMInfos =  Get-WmiObject -Class WIN32_OperatingSystem -ComputerName $Nom  #Je recupere les informations hardware
     $script:RAMUsage = [math]::round((($RAMInfos.TotalVisibleMemorySize - $RAMInfos.FreePhysicalMemory)*100)/ $RAMInfos.TotalVisibleMemorySize) #math pour limiter les decimales; Ensuite calcul entre la ram utilisé et la ram totale pour avoir un pourcentage d'utilisation
@@ -109,7 +109,7 @@ function PSS2022SupervisionRAMUsage
 }
 
 
-function PSS2022Supervisionstatut
+function PPS2022Supervisionstatut
 {
     if(($ColorCPU -eq 'w3-green') -and ($ColorRAM -eq 'w3-green')) #Si la RAM et le CPU sont au vert
     {
@@ -129,4 +129,4 @@ function PSS2022Supervisionstatut
         $script:ColorStatut = 'w3-pale-yellow' #La variable ColorStatut sera jaune
     }
 }
-PSS2022Supervision
+PPS2022Supervision
