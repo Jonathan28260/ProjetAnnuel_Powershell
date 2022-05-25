@@ -87,6 +87,13 @@
                 "PPS2022-IpPublic-IIS",
                 "PPS2022-IpPublic-DC"
      ]
+   },
+      "IpPrive": {
+            "type": "array",
+            "defaultValue": [
+                "192.168.1.4",
+                "192.168.1.10"
+     ]
    }
     },
     "variables": {
@@ -227,7 +234,8 @@
                     {
                         "name": "PPS2022-IPconfig",
                         "properties": {
-                            "privateIPAllocationMethod": "Dynamic",
+                            "privateIPAllocationMethod": "Static",
+                            "privateIPAddress": "[parameters('IpPrive')[copyIndex()]]",
                             "publicIPAddress": {
                                  "id": "[resourceId('Microsoft.Network/publicIPAddresses', parameters('IpPublicName')[copyIndex()])]",
                                     "copy": {
@@ -294,6 +302,32 @@
         {
             "type": "Microsoft.Compute/virtualMachines/extensions",
             "apiVersion": "2018-06-01",
+            "name": "PPS2022-SRV-DC/config-app",
+            "location": "[resourceGroup().location]",   
+            "tags": {
+                "displayName": "PPS2022-InstallServices"
+                 },
+            "properties": {
+                    "publisher": "Microsoft.Compute",
+                    "type": "CustomScriptExtension",
+                    "typeHandlerVersion": "1.10",
+                    "autoUpgradeMinorVersion": true,
+                    "settings": {
+                    "timestamp":123456789
+                        },
+                    "protectedSettings": {
+                            "storageAccountName": "[variables('storageAccountName')]",
+                            "storageAccountKey": "[listKeys(variables('storageAccountName'), '2019-04-01').keys[0].value]",
+                            "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -File PPS2022-InstallServices-AD-DNS-DHCP.ps1', ' -ADPassword ', parameters('adminPassword'))]",
+                            "fileUris": [
+                                "https://raw.githubusercontent.com/Jonathan28260/ProjetAnnuel_Powershell/main/PPS2022-InstallServices-AD-DNS-DHCP.ps1"
+                            ]
+                        }
+                }
+         },
+         {
+            "type": "Microsoft.Compute/virtualMachines/extensions",
+            "apiVersion": "2018-06-01",
             "name": "PPS2022-SRV-IIS/config-app",
             "location": "[resourceGroup().location]",   
             "tags": {
@@ -310,13 +344,13 @@
                     "protectedSettings": {
                             "storageAccountName": "[variables('storageAccountName')]",
                             "storageAccountKey": "[listKeys(variables('storageAccountName'), '2019-04-01').keys[0].value]",
-                            "commandToExecute": "powershell -ExecutionPolicy Unrestricted -File Test-IIS.ps1 ",
+                            "commandToExecute": "[concat('powershell -ExecutionPolicy Unrestricted -File PPS2022-InstallService-IIS.ps1', ' -DomainPassword ', parameters('adminPassword'))]",
                             "fileUris": [
-                                "https://raw.githubusercontent.com/Jonathan28260/ProjetAnnuel_Powershell/main/Test-IIS.ps1"
+                                "https://raw.githubusercontent.com/Jonathan28260/ProjetAnnuel_Powershell/main/PPS2022-InstallService-IIS.ps1"
                             ]
                         }
                 }
-         }     
+         }          
     ]
     //   "outputs": {
     // "hostname": {
