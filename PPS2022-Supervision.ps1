@@ -9,6 +9,9 @@ $HTMLSupervision = 'C:\inetpub\wwwroot\Index.html'
 
 #Ajout du module w3 css et réglages de la barre superieur du tableau HTML
 '<meta http-equiv="refresh" content="13"
+<Head>
+<title>Supervision</title>
+</Head>
 <body class="w3-tiny">
 <div class="w3-responsive "w3-tiny"">
 <link rel="stylesheet" href="https://www.w3schools.com/w3css/4/w3.css">
