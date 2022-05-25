@@ -1,38 +1,49 @@
-﻿$ErrorActionPreference = "Continue"
+﻿$ErrorActionPreference = "stop"
 
 function PPS2022TestWinRM{
 
+    #On récupère le statut du service WinRM, s'il est éteint alors on démarre le service
     if(Get-Service -Name Winrm | Where-Object {$_.status -NotLike "Running"})
         {
-            Start-Service WinRM
-            Write-Host -Object "Le service WinRM a ete demarre" -ForegroundColor Yellow
+            try{
+                Start-Service WinRM
+                Write-Host -Object "Le service WinRM a ete demarre" -ForegroundColor Yellow
+            }
+
+            catch{
+                #Si le try ne fonctionne pas alors on affiche l'erreur.
+                Write-Host $Error[0].Exception.Message -ForegroundColor Red
+            }
         }
 
     else
         {
-            Write-Host -Object "Le service WinRM est deja démarre" -ForegroundColor Green
+            Write-Host -Object "Le service WinRM est deja demarre" -ForegroundColor Green
         }
 
 Read-Host "Appuyez sur ENTREE pour continuer..."
 
 }
-
-# New-PSSession -ComputerName pps2022-srv-dc-me5rkrxriayqw.switzerlandnorth.cloudapp.azure.com -UseSSL -SessionOption (New-PSSessionOption -SkipCACheck -SkipCNCheck) -Credential (Get-Credential)
 function PPS2022InstallAD{
-    #Recuperation des informations d'identification pour l'ordinateur cible
-    $computerCredentials = Get-Credential -Message "Identifants de l'ordinateur distant"
-
-    #Recuperation du SafePassword pour la foret ActiveDirectory
-    $ADcredentials = Read-Host "Entrer le SafePassword pour la foret Active Directory :" -AsSecureString
 
     #Initialisation de la session Powershell à distance
-    $computerName = Read-Host -Prompt "Veuillez entrer le nom du serveur auquel vous souhaiter accéder"
-    $sessionId = New-PSSession -ComputerName $computerName -UseSSL -SessionOption (New-PSSessionOption -SkipCACheck -SkipCNCheck) -Credential $computerCredentials
+    Try{
+        #$sessionId = New-PSSession -ComputerName $computerName -UseSSL -SessionOption (New-PSSessionOption -SkipCACheck -SkipCNCheck) -Credential $computerCredentials
+        $sessionId = New-PSSession -ComputerName pps2022srvdc.switzerlandnorth.cloudapp.azure.com -Credential Administrateur
+    }
 
+    Catch{
+        Write-Host $Error[0].Exception.Message -ForegroundColor Red
+    }
+
+    #Recuperation du SafePassword pour la foret ActiveDirectory
+    $safePassword = Read-Host "Entrer le SafePassword pour la foret Active Directory" -AsSecureString
+    
+    #Si la PSSession a bien été initialisée alors on envoi les commandes suivantes sur le serveur distant
     if($sessionId){
-    Invoke-Command -Session $sessionId -ArgumentList $ADcredentials -Scriptblock {
+    Invoke-Command -Session $sessionId -ArgumentList $safePassword -Scriptblock {
 
-        $verifAD = Get-ADDomainController
+        $verifAD = Get-ADDomainController -ErrorAction SilentlyContinue
     
         if(!$verifAD)
         {
@@ -59,7 +70,15 @@ function PPS2022InstallAD{
 function PPS2022InstallDHCP{
     $computerCredentials = Get-Credential -Message "Identifants de l'ordinateur distant"
     $computerName = Read-Host -Prompt "Veuillez entrer le nom du serveur auquel vous souhaitez accéder"
-    $sessionId = New-PSSession -ComputerName $computerName -UseSSL -SessionOption (New-PSSessionOption -SkipCACheck -SkipCNCheck) -Credential $computerCredentials
+
+    try {
+        $sessionId = New-PSSession -ComputerName $computerName -UseSSL -SessionOption (New-PSSessionOption -SkipCACheck -SkipCNCheck) -Credential $computerCredentials
+
+    }
+    catch {
+        Write-Host $Error[0].Exception.Message -ForegroundColor Red
+    }
+
     Invoke-Command -Session $sessionId -Scriptblock {
     Install-WindowsFeature DHCP -IncludeManagementTools
     Add-DHCPServerInDC -DNSName PPS2022-SRV-DC.PPS2022.local
@@ -80,22 +99,16 @@ function DisplayMenu{
         write-host "3. Installer le service DHCP"
         write-host "x. Exit"
         write-host "--------------------------------------------------------"
-    $choix = read-host "Faire un choix"
-    switch ($choix){
-        1{PPS2022TestWinRM}
-        2{PPS2022InstallAD}
-        3{PPS2022InstallDHCP}
-        'x' {$continue = $false}
-    default {Write-Host "Choix invalide"-ForegroundColor Red}
-    }
-    }
-}
+        $choix = read-host "Faire un choix"
+        switch ($choix){
+            1{PPS2022TestWinRM}
+            2{PPS2022InstallAD}
+            3{PPS2022InstallDHCP}
+            4{$continue = $false}
 
-# DisplayMenu
-
-function  TEST {
-    Get-Alias -Name Test
-    $Error[0].Exception.Message
+        default {Write-Host "Choix invalide"-ForegroundColor Red}
+        }
+    }
 }
 
 DisplayMenu
