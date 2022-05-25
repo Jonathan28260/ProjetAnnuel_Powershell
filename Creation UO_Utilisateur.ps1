@@ -23,6 +23,7 @@ function PPS2022CreationUser {
 
 $UtilisateurAD = Import-csv C:\Users\scripts\NouveauxUtilisateurs.CSV
 
+function PPS2022CreationUtilisateurs
 
 foreach ($Utilisateur in $UtilisateurAD)
 {
@@ -31,7 +32,6 @@ foreach ($Utilisateur in $UtilisateurAD)
        $Password    = $Utilisateur.motdepasse
        $Firstname   = $Utilisateur.prenom
        $Lastname    = $Utilisateur.nom
-       $Department = $Utilisateur.departement
        $OU           = $Utilisateur.ou
 
        # Nous allons vérifier si l'utilisateur existe déjà et renvoyer un message dans le cas ou il existe
@@ -53,7 +53,6 @@ foreach ($Utilisateur in $UtilisateurAD)
             -Enabled $True `
             -ChangePasswordAtLogon $True `
             -DisplayName "$Lastname, $Firstname" `
-            -Department $Department `
             -Path $OU `
             -AccountPassword (convertto-securestring $Password -AsPlainText -Force)
 
