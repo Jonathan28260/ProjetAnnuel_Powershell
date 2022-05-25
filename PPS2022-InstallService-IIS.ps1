@@ -18,7 +18,7 @@ function PPS2022installIIS{
     }
 PPS2022installIIS
 
-function ScheduledTask{
+function PPS2022ScheduledTask{
 
     New-item -Path "C:\" -Name "Scripts" -ItemType "directory"
     ADD-content -path "C:\Scripts\PPS2022-Loop-Supervision.ps1" -value 'while($true){ C:\Scripts\PPS2022-Supervision.ps1 
@@ -29,10 +29,11 @@ function ScheduledTask{
 
     $action=New-ScheduledTaskAction -Execute "powershell.exe" -Argument "-ExecutionPolicy Bypass C:\Scripts\PPS2022-Loop-Supervision.ps1"
     $trigger=New-ScheduledTaskTrigger -AtStartup
-    Register-ScheduledTask -TaskName "Supervision" -Trigger $trigger -Action $action -Description "Supervision" -User SYSTEM
+    $principal=New-ScheduledTaskPrincipal -GroupId "BUILTIN\Administrators" -RunLevel Highest
+    Register-ScheduledTask -TaskName "Supervision" -Trigger $trigger -Action $action -Principal $principal -Description "Supervision"
 
     }
-ScheduledTask    
+PPS2022ScheduledTask    
 
 Start-Sleep -s 300
 
