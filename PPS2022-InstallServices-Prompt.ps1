@@ -1,4 +1,4 @@
-﻿$ErrorActionPreference = "stop"
+$ErrorActionPreference = "stop"
 
 function PPS2022TestWinRM{
 
@@ -56,11 +56,10 @@ function PPS2022InstallAD{
             $domainName = Read-Host -Prompt "Veuillez entrer le nom de domaine complet (Ex: Test.local)"
             $netbiosName = Read-Host -Prompt "Veuillez entrer le nom Netbios (Ex: Test)"
             Install-WindowsFeature AD-Domain-Services -IncludeManagementTools
-            Install-ADDSForest -DomainName $domainName -DomainNetBiosName $netbiosName -InstallDns:$true -NoRebootOnCompletion:$true -SafeModeAdministratorPassword $args[0] -Force
-            Restart-Computer
+            Install-ADDSForest -DomainName $domainName -DomainNetBiosName $netbiosName -InstallDns:$true -NoRebootOnCompletion:$false -SafeModeAdministratorPassword $args[0] -Force
         }
 
-    }
+    } -ErrorAction SilentlyContinue
 
     Remove-PSSession $sessionId
     # Restart-Computer -ComputerName $computerName -Wait -For PowerShell -Timeout 300 -Delay 2 -Credential $computerCredentials -Force
@@ -78,8 +77,8 @@ function PPS2022InstallDHCP{
     $computerName = Read-Host -Prompt "Veuillez entrer le nom du serveur auquel vous souhaitez accéder"
 
     try {
-        $sessionId = New-PSSession -ComputerName $computerName -UseSSL -SessionOption (New-PSSessionOption -SkipCACheck -SkipCNCheck) -Credential $computerCredentials
-
+        # $sessionId = New-PSSession -ComputerName $computerName -UseSSL -SessionOption (New-PSSessionOption -SkipCACheck -SkipCNCheck) -Credential $computerCredentials
+        $sessionId = New-PSSession -ComputerName $computerName -Credential $computerCredentials
     }
     catch {
         Write-Host $Error[0].Exception.Message -ForegroundColor Red
@@ -94,15 +93,22 @@ function PPS2022InstallDHCP{
     $ipMask = Read-Host -Prompt "Veuillez entrer le masque de sous reseau pour le pool"
     $poolDescription = Read-Host -Prompt "Veuillez entrer une description pour votre pool DHCP"
     
-    Invoke-Command -Session $sessionId -ArgumentList $dnsServer,$dnsDomain,$gatewayIP,$poolName,$ipStartRange,$ipEndRange,$ipMask,$poolDescription -Scriptblock {
-    Install-WindowsFeature DHCP -IncludeManagementTools
-    Add-DHCPServerInDC -DNSName ([System.Net.Dns]::GetHostByName($env:computerName).HostName)
-    Set-DHCPServerv4OptionValue -DNSServer $args[0] -DNSDomain $args[1] -Router $args[2]
-    Add-DHCPServerv4Scope -Name $args[3] -StartRange $args[4] -EndRange $args[5] -SubnetMask $args[6] -Description $args[7]
+    try{
+        Invoke-Command -Session $sessionId -ArgumentList $dnsServer,$dnsDomain,$gatewayIP,$poolName,$ipStartRange,$ipEndRange,$ipMask,$poolDescription -Scriptblock {
+            Install-WindowsFeature DHCP -IncludeManagementTools
+            Add-DHCPServerInDC -DNSName ([System.Net.Dns]::GetHostByName($env:computerName).HostName)
+            Set-DHCPServerv4OptionValue -DNSServer $args[0] -DNSDomain $args[1] -Router $args[2]
+            Add-DHCPServerv4Scope -Name $args[3] -StartRange $args[4] -EndRange $args[5] -SubnetMask $args[6] -Description $args[7]
+        }
+
+        Write-Host -Object "Le service DHCP a ete installe"
+    }
+
+    catch{
+        Write-Host $Error[0].Exception.Message -ForegroundColor Red
     }
 
     Remove-PSSession $sessionId
-    Write-Host -Object "Le service DHCP a ete installe"
 }
 
 function DisplayMenu{
