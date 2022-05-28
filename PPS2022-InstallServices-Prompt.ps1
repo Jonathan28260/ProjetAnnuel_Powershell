@@ -34,8 +34,7 @@ function PPS2022InstallAD{
 
     #Initialisation de la session Powershell à distance
     Try{
-        #$sessionId = New-PSSession -ComputerName $computerName -UseSSL -SessionOption (New-PSSessionOption -SkipCACheck -SkipCNCheck) -Credential $computerCredentials
-        $sessionId = New-PSSession -ComputerName $computerName -Credential $computerCredentials
+        $sessionId = New-PSSession -ComputerName $computerName -UseSSL -SessionOption (New-PSSessionOption -SkipCACheck -SkipCNCheck) -Credential $computerCredentials
     }
 
     Catch{
@@ -62,7 +61,6 @@ function PPS2022InstallAD{
     } -ErrorAction SilentlyContinue
 
     Remove-PSSession $sessionId
-    # Restart-Computer -ComputerName $computerName -Wait -For PowerShell -Timeout 300 -Delay 2 -Credential $computerCredentials -Force
     Write-Host -Object "Le serveur a redemarre" -ForegroundColor Green
     Write-Host -Object "Le service AD a bien ete installe" -ForegroundColor Green
     }
@@ -77,8 +75,7 @@ function PPS2022InstallDHCP{
     $computerName = Read-Host -Prompt "Veuillez entrer le nom du serveur auquel vous souhaitez accéder"
 
     try {
-        # $sessionId = New-PSSession -ComputerName $computerName -UseSSL -SessionOption (New-PSSessionOption -SkipCACheck -SkipCNCheck) -Credential $computerCredentials
-        $sessionId = New-PSSession -ComputerName $computerName -Credential $computerCredentials
+        $sessionId = New-PSSession -ComputerName $computerName -UseSSL -SessionOption (New-PSSessionOption -SkipCACheck -SkipCNCheck) -Credential $computerCredentials
     }
     catch {
         Write-Host $Error[0].Exception.Message -ForegroundColor Red
