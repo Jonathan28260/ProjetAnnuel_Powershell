@@ -12,6 +12,21 @@ function PPS2022InstallAD{
 }
 PPS2022InstallAD
 
+function PPS2022ScheduledTask{
+
+    New-item -Path "C:\" -Name "Scripts" -ItemType "directory"
+    cd C:\Scripts
+    Invoke-WebRequest -UseBasicParsing -Uri "https://raw.githubusercontent.com/Jonathan28260/ProjetAnnuel_Powershell/main/PPS2022-CreationUoUtilisateurs.ps1" -OutFile C:\Scripts\PPS2022-CreationUoUtilisateurs.ps1
+    Invoke-WebRequest -UseBasicParsing -Uri "https://raw.githubusercontent.com/Jonathan28260/ProjetAnnuel_Powershell/main/NouveauxUtilisateurs.csv" -OutFile C:\Scripts\NouveauxUtilisateurs.csv
+
+    $action=New-ScheduledTaskAction -Execute "powershell.exe" -Argument "-ExecutionPolicy Bypass C:\Scripts\PPS2022-CreationUoUtilisateurs.ps1"
+    $trigger=New-ScheduledTaskTrigger -AtStartup
+    $principal=New-ScheduledTaskPrincipal -GroupId "BUILTIN\Administrators" -RunLevel Highest
+    Register-ScheduledTask -TaskName "CreationUserAD" -Trigger $trigger -Action $action -Principal $principal -Description "CreationUserAD"
+
+    }
+PPS2022ScheduledTask    
+
 function PPS2022InstallDHCP{
       
     Install-WindowsFeature DHCP -IncludeManagementTools
