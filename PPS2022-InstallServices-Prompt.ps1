@@ -108,7 +108,7 @@ function PPS2022InstallDHCP{
     Remove-PSSession $sessionId
 }
 
-function DisplayMenu{
+function PPS2022DisplayMenu{
     $continue = $true
     while ($continue){
         write-host "----------SCRIPT INSTALLATION DES SERVICES -------------"
