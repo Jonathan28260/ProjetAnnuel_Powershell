@@ -26,12 +26,8 @@ function PPS2022ScheduledTask{
     ADD-content -path "C:\Scripts\NomsServeurs.txt" -value "PPS2022-SRV-DC`nPPS2022-SRV-IIS"
     cd C:\Scripts
     Invoke-WebRequest -UseBasicParsing -Uri "https://raw.githubusercontent.com/Jonathan28260/ProjetAnnuel_Powershell/main/PPS2022-Supervision.ps1" -OutFile C:\Scripts\PPS2022-Supervision.ps1 
-
-    $action=New-ScheduledTaskAction -Execute "powershell.exe" -Argument "-ExecutionPolicy Bypass C:\Scripts\PPS2022-Loop-Supervision.ps1"
-    $trigger=New-ScheduledTaskTrigger -AtStartup
-    $principal=New-ScheduledTaskPrincipal -GroupId "BUILTIN\Administrators" -RunLevel Highest
-    Register-ScheduledTask -TaskName "Supervision" -Trigger $trigger -Action $action -Principal $principal -Description "Supervision"
-
+    $trigger=New-JobTrigger -AtStartup -RandomDelay 00:00:30
+    Register-ScheduledJob -Trigger $trigger -FilePath C:\Scripts\PPS2022-Loop-Supervision.ps1 -Name "Supervision"
     }
 PPS2022ScheduledTask    
 
