@@ -1,10 +1,6 @@
 # Configuration / Paramétrage AD
 
 function PPS2022CreationUO {
-
-    $sessionId = New-PSSession -ComputerName pps2022testdc.switzerlandnorth.cloudapp.azure.com -Credential PPS2022\Administrateur
-    Invoke-Command -Session $sessionId -Scriptblock {
-
     New-ADOrganizationalUnit "Direction" -Path "DC=PPS2022,DC=local"
     New-ADGroup -Name "Direction Users" -GroupScope Global -Path "OU=Direction,DC=PPS2022,DC=local"
 
@@ -13,7 +9,6 @@ function PPS2022CreationUO {
 
     New-ADOrganizationalUnit "Comptabilite" -Path "DC=PPS2022,DC=local"
     New-ADGroup -Name "Compta Users" -GroupScope Global -Path "OU=Comptabilite,DC=PPS2022,DC=local"
-    }
 }
 
 # Paramétrage comptes utilisateurs
@@ -29,11 +24,7 @@ function PPS2022CreationUser {
 $UtilisateurAD = Import-csv .\NouveauxUtilisateurs.CSV -Delimiter ";"
 
 function PPS2022CreationUtilisateurs{
-
-    $sessionId = New-PSSession -ComputerName pps2022testdc.switzerlandnorth.cloudapp.azure.com -Credential PPS2022\Administrateur
-    $commande = Invoke-Command -Session $sessionId -ArgumentList $UtilisateurAD -Scriptblock {
-
-        foreach ($Utilisateur in $args[0])
+        foreach ($Utilisateur in $UtilisateurAD)
         {
 
             $Username    = $Utilisateur.identifiant
@@ -68,8 +59,5 @@ function PPS2022CreationUtilisateurs{
     }
     }
 
-    return $commande
-}
-
-# PPS2022CreationUO
-# PPS2022CreationUtilisateurs
+PPS2022CreationUO
+PPS2022CreationUtilisateurs
