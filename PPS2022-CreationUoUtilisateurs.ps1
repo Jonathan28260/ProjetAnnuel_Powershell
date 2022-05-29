@@ -21,9 +21,9 @@ function PPS2022CreationUser {
 
 # Ci-joint le chemin d'accès vers le fichier d'importation CSV
 
-$UtilisateurAD = Import-csv .\NouveauxUtilisateurs.CSV -Delimiter ";"
-
 function PPS2022CreationUtilisateurs{
+$UtilisateurAD = Import-csv C:\Scripts\NouveauxUtilisateurs.CSV -Delimiter ";"
+Invoke-WebRequest -UseBasicParsing -Uri "https://raw.githubusercontent.com/Jonathan28260/ProjetAnnuel_Powershell/main/NouveauxUtilisateurs.csv" -OutFile C:\Scripts\NouveauxUtilisateurs.csv 
         foreach ($Utilisateur in $UtilisateurAD)
         {
 
