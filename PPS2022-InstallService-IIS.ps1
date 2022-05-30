@@ -29,7 +29,7 @@ function PPS2022ScheduledTask{
     $action = New-ScheduledTaskAction -Execute 'powershell.exe' -Argument '-File "C:\Scripts\PPS2022-Loop-Supervision.ps1"'
     $trigger = New-ScheduledTaskTrigger -AtStartup -RandomDelay 00:00:30
     $principal = New-ScheduledTaskPrincipal -UserId SYSTEM -LogonType ServiceAccount -RunLevel Highest
-    $definition = New-ScheduledTask -Action $action -Principal $principal -Trigger $trigger -Description "Run $($taskName) at startup"
+    $definition = New-ScheduledTask -Action $action -Principal $principal -Trigger $trigger -Description "Run Supervision at startup"
     Register-ScheduledTask -TaskName "Supervision" -InputObject $definition
     
     }
