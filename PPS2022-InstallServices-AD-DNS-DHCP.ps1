@@ -17,7 +17,7 @@ function PPS2022ScheduledTask{
     New-item -Path "C:\" -Name "Scripts" -ItemType "directory"
     cd C:\Scripts
     Invoke-WebRequest -UseBasicParsing -Uri "https://raw.githubusercontent.com/Jonathan28260/ProjetAnnuel_Powershell/main/PPS2022-CreationUOUtilisateurs.ps1" -OutFile C:\Scripts\PPS2022-CreationUoUtilisateurs.ps1
-    $action = New-ScheduledTaskAction -Execute 'powershell.exe' -Argument '-File "PPS2022-CreationUoUtilisateurs.ps1"'
+    $action = New-ScheduledTaskAction -Execute 'powershell.exe' -Argument '-File "PPS2022-CreationUOUtilisateurs.ps1"'
     $trigger = New-ScheduledTaskTrigger -AtStartup -RandomDelay 00:00:30
     $principal = New-ScheduledTaskPrincipal -GroupId "BUILTIN\Administrators" -RunLevel Highest
     $definition = New-ScheduledTask -Action $action -Principal $principal -Trigger $trigger -Description "Run CreateUserAD at startup"
