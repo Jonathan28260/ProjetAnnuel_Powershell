@@ -28,7 +28,7 @@ function PPS2022ScheduledTask{
     Invoke-WebRequest -UseBasicParsing -Uri "https://raw.githubusercontent.com/Jonathan28260/ProjetAnnuel_Powershell/main/PPS2022-Supervision.ps1" -OutFile C:\Scripts\PPS2022-Supervision.ps1 
     $action = New-ScheduledTaskAction -Execute 'powershell.exe' -Argument '-File "C:\Scripts\PPS2022-Loop-Supervision.ps1"'
     $trigger = New-ScheduledTaskTrigger -AtStartup -RandomDelay 00:00:30
-    $principal = New-ScheduledTaskPrincipal -UserId SYSTEM -LogonType ServiceAccount -RunLevel Highest
+    $principal = New-ScheduledTaskPrincipal -GroupId "BUILTIN\Administrators" -RunLevel Highest
     $definition = New-ScheduledTask -Action $action -Principal $principal -Trigger $trigger -Description "Run Supervision at startup"
     Register-ScheduledTask -TaskName "Supervision" -InputObject $definition
     
