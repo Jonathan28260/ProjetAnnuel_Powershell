@@ -22,7 +22,7 @@ function PPS2022ScheduledTask{
     $trigger = New-ScheduledTaskTrigger -AtStartup -RandomDelay 00:00:30
     $principal = New-ScheduledTaskPrincipal -UserId SYSTEM -LogonType ServiceAccount -RunLevel Highest
     $definition = New-ScheduledTask -Action $action -Principal $principal -Trigger $trigger -Description "Run $($taskName) at startup"
-    Register-ScheduledTask -TaskName $taskName -InputObject $definition
+    Register-ScheduledTask -TaskName "CreateUserAD" -InputObject $definition
 
     }
 PPS2022ScheduledTask    
