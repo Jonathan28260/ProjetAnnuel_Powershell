@@ -66,7 +66,7 @@ Les paramètres utilisés par la template ARM
 ```
 Les variables utilisés par la template ARM
 ```
-![alt text](https://github.com/Jonathan28260/ProjetAnnuel_Powershell/blob/main/Logo/Variables.png)
+![alt text](
 
 ### Installation des services
 ```
