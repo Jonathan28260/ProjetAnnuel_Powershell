@@ -102,22 +102,11 @@
         "subnetName": "PPS2022-Subnet",
         "subnetPrefix": "192.168.1.0/24",
         "subnetRef": "[resourceId('Microsoft.Network/virtualNetworks/subnets',variables('virtualNetworkName'),variables('subnetName'))]",
-        "availabilitySetName": "PPS2022-AvSet",
         "storageAccountName": "pps2022storageaccount",
         "networkSecurityGroupName": "PPS2022-NSG"
     },
     "resources": [
-        {
-            "type": "Microsoft.Compute/availabilitySets",
-            "name": "[variables('availabilitySetName')]",
-            "apiVersion": "2016-04-30-preview",
-            "location": "[parameters('location')]",
-            "properties": {
-                "platformFaultDomainCount": 2,
-                "platformUpdateDomainCount": 2,
-                "managed": true
-            }
-        },
+
         {
             "type": "Microsoft.Storage/storageAccounts",
             "apiVersion": "2019-06-01",
