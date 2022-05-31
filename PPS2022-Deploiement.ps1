@@ -33,7 +33,7 @@ function PPS2022SuppressionRessources{
     Remove-AzResourceGroup -Name "NetworkWatcherRG"   
 }
 
-function DisplayMenu{
+function PPS2022DisplayMenu{
     $continue = $true
     while ($continue){
         write-host "---------------SCRIPT de Déploiement--------------------"
@@ -55,4 +55,4 @@ function DisplayMenu{
         }
     }
 }
-DisplayMenu
+PPS2022DisplayMenu
