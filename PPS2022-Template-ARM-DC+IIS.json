@@ -341,10 +341,4 @@
                 }
          }          
     ]
-    //   "outputs": {
-    // "hostname": {
-    //   "type": "string",
-    //   "value": "[reference(resourceId('Microsoft.Network/publicIPAddresses', parameters('IpPublicName'))).dnsSettings.fqdn]"
-    // }
-//   }
 }
