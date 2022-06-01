@@ -7,6 +7,11 @@
 Projet d'automatisation du déploiement d'une infrastructure via script powershell dans Azure 
 ```
 
+# Vidéo de déploiement
+```
+![alt text](https://photos.app.goo.gl/Jk4P7VqfRHdA9TCa6)
+```
+
 ## Normalisation des noms:
 ```
  PPS2022 = Projet PowerShell 2022
