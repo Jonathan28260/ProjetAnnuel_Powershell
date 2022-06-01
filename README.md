@@ -38,6 +38,8 @@ https://photos.app.goo.gl/Jk4P7VqfRHdA9TCa6
  
  PPS2022-Supervision.ps1 ---> Script de supervision HTML
  
+ PPS2022-CreationUOUtilisateurs ---> Script de création d'unités d'organisation et d'utilisateurs via un fichier csv
+ 
  PPS2022-Template-ARM-DC.json ---> Template ARM utilisé pour le déploiement du contrôleur de domaine
  
  PPS2022-Template-ARM-IIS.json ---> Template ARM utilisé pour le déploiement du serveur web
@@ -78,7 +80,11 @@ Les variables utilisés par la template ARM
 L'installation des services est également entièrement automatisé.
 Le script "PPS2022-InstallServices.ps1" est appelé par la template "PPS2022-Template-ARM-DC.json" grâce à la ressource "Microsoft.Compute/virtualMachines/extensions" et l'extension "CustomScriptExtension".
 ```
-
+### Configuration des UO et création utilisateurs
+```
+La première fonction du script permet de  créer trois unités d'organisation et d'y rattacher trois groupes de sécurité distint et rattaché à son UO.
+La deuxième fonctino du script permet via un import csv une création des utilisateurs dans l'AD en masse.
+```
 ### Monitoring
 ```
 Le script est PPS2022-Supervision.
