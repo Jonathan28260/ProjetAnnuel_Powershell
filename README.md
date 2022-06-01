@@ -9,7 +9,7 @@ Projet d'automatisation du déploiement d'une infrastructure via script powershe
 
 # Vidéo de déploiement
 ```
-![alt text](https://photos.app.goo.gl/Jk4P7VqfRHdA9TCa6)
+https://photos.app.goo.gl/Jk4P7VqfRHdA9TCa6
 ```
 
 ## Normalisation des noms:
